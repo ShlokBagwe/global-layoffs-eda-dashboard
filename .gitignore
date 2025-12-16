@@ -1,0 +1,10 @@
+*.sql
+*.xlsx
+
+notepad
+
+trial_nb.ipynb
+
+.venv/
+
+
