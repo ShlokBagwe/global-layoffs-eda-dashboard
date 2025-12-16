@@ -1,6 +1,4 @@
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 import streamlit as st
 from dbhelper import DB
 
@@ -10,7 +8,7 @@ df = db.load_data()
 
 st.sidebar.title("Global Layoff Dashboard")
 
-option = st.sidebar.selectbox("OPTIONS",["Overview","Industry & Stage Impact","Funding & Layoff Severity","Time Trends","Key Takeaways"])
+option = st.sidebar.selectbox("OPTIONS",["Overview","Industry & Stage Impact","Funding & Layoff Severity","Time Trends","Multivariate Insights","Key Takeaways"])
 
 if option == 'Overview':
     st.title("Overview")
@@ -134,5 +132,51 @@ if option == 'Funding & Layoff Severity':
         "Low funded companies tend to lay off a much larger share of their workers, "
         "often indicating shutdowns, while highly funded companies usually make smaller, "
         "more controlled cuts."
+    )
+
+
+if option == "Time Trends":
+    st.title("Layoff Trends Over Time")
+
+    st.markdown(
+        "This section shows how layoff activity changes over time. "
+        "It helps identify periods when layoffs increased sharply and whether layoffs "
+        "occur in distinct waves or steady patterns."
+    )
+
+    df["date"] = pd.to_datetime(df["date"])
+
+    df_time = df.dropna(subset=["date", "total_laid_off"]).copy()
+    df_time["year"] = df_time["date"].dt.year.astype(str)
+    df_time["month_year"] = df_time["date"].dt.to_period("M").astype(str)
+
+    year_layoff = (
+        df_time.groupby("year")["total_laid_off"]
+        .sum()
+        .reset_index()
+    )
+
+    st.subheader("Total Layoffs by Year")
+    st.line_chart(year_layoff, x="year", y="total_laid_off")
+
+    st.markdown(
+        "Layoffs peaked in 2022 and remained high into early 2023. "
+        "In contrast, 2021 shows very low layoff activity, indicating a short recovery or over-hiring phase."
+    )
+
+    "---"
+
+    month_layoff = (
+        df_time.groupby("month_year")["total_laid_off"]
+        .sum()
+        .reset_index()
+    )
+
+    st.subheader("Monthly Layoff Trends")
+    st.line_chart(month_layoff, x="month_year", y="total_laid_off")
+
+    st.markdown(
+        "Monthly trends show that layoffs happen in clear waves rather than evenly over time. "
+        "Major spikes are visible during early 2020, mid-to-late 2022, and early 2023."
     )
 
