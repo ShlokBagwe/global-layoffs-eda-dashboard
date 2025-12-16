@@ -97,5 +97,42 @@ if option == 'Funding & Layoff Severity':
         "measured as the average percentage of employees laid off."
     )
 
+    def funding_category(x):
+        if pd.isna(x):
+            return "Unknown"
+        elif x <= 10:
+            return "0–10M"
+        elif x <= 50:
+            return "11–50M"
+        elif x <= 200:
+            return "51–200M"
+        elif x <= 500:
+            return "201–500M"
+        else:
+            return ">500M"
+    
+    df_severity = df[df['funds_raised_millions'].notna()].copy()
+    
+    df_severity['funding_buckets'] = df['funds_raised_millions'].apply(funding_category)
+    
+    funding_buckets_layoff = (
+        df_severity
+        .groupby("funding_buckets")["percentage_laid_off"]
+        .mean()
+        .mul(100)
+        .round(2)
+        .reindex(["0–10M", "11–50M", "51–200M", "201–500M", ">500M", "Unknown"])
+        .reset_index()
+    )
 
-       
+
+    st.subheader("Average Percentage of Laid Off by Funding Level")
+    st.bar_chart(funding_buckets_layoff, x="funding_buckets", y="percentage_laid_off")
+
+    st.markdown(
+        "Layoff severity decreases as funding increases. "
+        "Low funded companies tend to lay off a much larger share of their workers, "
+        "often indicating shutdowns, while highly funded companies usually make smaller, "
+        "more controlled cuts."
+    )
+
