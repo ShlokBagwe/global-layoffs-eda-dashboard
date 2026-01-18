@@ -3,7 +3,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Load data from CSV instead of database for Streamlit Cloud
+
 df = pd.read_csv('layoffs.csv')
 
 
