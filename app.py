@@ -127,6 +127,7 @@ if option == 'Funding & Layoff Severity':
 
 
     st.subheader("Average Percentage of Laid Off by Funding Level")
+    st.text("Note: Fundings are in dollars($)")
     st.bar_chart(funding_buckets_layoff, x="funding_buckets", y="percentage_laid_off")
 
     st.markdown(
@@ -275,7 +276,7 @@ if option == "Multivariate Insights":
     ax.grid(axis='y', which='major', alpha=0.9)
     
     plt.title("Stage, Funding, and Layoff Severity")
-    plt.xlabel("Fundings")
+    plt.xlabel("Fundings($)")
     plt.ylabel("Layoff(%)")
     plt.legend(loc='best')
     st.pyplot(fig)
