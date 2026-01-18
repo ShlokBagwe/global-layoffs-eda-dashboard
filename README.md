@@ -10,6 +10,11 @@ This project focuses on **data understanding and storytelling**, not prediction 
 
 ---
 
+## Streamlit - Dashboard
+- link: https://shlokbagwe-global-layoffs-eda-dashboard-app-wlncob.streamlit.app/
+
+---
+
 ## Dataset
 
 * Source: Global layoffs dataset (publicly available)
