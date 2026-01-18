@@ -1,11 +1,10 @@
 import pandas as pd
 import streamlit as st
-from dbhelper import DB
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-db = DB()
-df = db.load_data()
+# Load data from CSV instead of database for Streamlit Cloud
+df = pd.read_csv('layoffs.csv')
 
 
 st.sidebar.title("Global Layoff Dashboard")

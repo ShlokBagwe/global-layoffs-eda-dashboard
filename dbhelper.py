@@ -6,10 +6,21 @@ class DB:
 
     def __init__(self):
         try:
+            # Try to import streamlit for secrets, fallback to environment variables
+            try:
+                import streamlit as st
+                host = st.secrets.get("DB_HOST", os.environ.get('DB_HOST'))
+                user = st.secrets.get("DB_USER", os.environ.get('DB_USER'))
+                password = st.secrets.get("DB_PASSWORD", os.environ.get('DB_PASSWORD'))
+            except (ImportError, FileNotFoundError):
+                host = os.environ.get('DB_HOST')
+                user = os.environ.get('DB_USER')
+                password = os.environ.get('DB_PASSWORD')
+            
             self.conn = mysql.connector.connect(
-                host = os.environ.get('DB_HOST'),
-                user = os.environ.get('DB_USER'),
-                password = os.environ.get('DB_PASSWORD'),
+                host = host,
+                user = user,
+                password = password,
                 database = 'world_layoff'
             )
             self.mycursor = self.conn.cursor()
