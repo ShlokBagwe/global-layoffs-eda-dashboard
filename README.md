@@ -134,14 +134,14 @@ The dashboard intentionally avoids clutter, raw tables, and excessive filters to
 global-layoffs-eda-dashboard/
 │
 ├── sql/
-│   ├── data_cleaning.sql
-|   └── multivariate_analysis.sql
+│   ├── layoff_data_cleaning.sql
+|   └── lauoff_eda.sql
 │   
+├── README.md
 ├── app.py
 ├── dbhelper.py
-├── requirements.txt
-├── README.md
-└── layoffs.csv
+├── layoffs.csv
+└── requirements.txt
 ```
 
 ---
